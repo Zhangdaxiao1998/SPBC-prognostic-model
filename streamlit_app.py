@@ -1,18 +1,31 @@
 import streamlit as st
-import joblib
 import pandas as pd
 import numpy as np
-from sklearn.utils import resample
+import pickle
 import matplotlib.pyplot as plt
+from sksurv.ensemble import RandomSurvivalForest
+from scipy.stats import randint
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.utils import resample
+# import joblib
+
+
 
 # 定义一个函数用于预测和展示结果
 # ========== 预测新患者的生存曲线 ==========
 def predict_survival(new_patient, target_time):
     """ 使用已训练好的 RSF 模型预测新患者的生存曲线，并计算置信区间 """
     # 加载模型
-    rsf = joblib.load('rsf_model.pkl')
-    X_train = joblib.load('X_train.pkl')
-    train_yt_merge_y = joblib.load('train_yt_merge_y.pkl')
+    # rsf = joblib.load('rsf_model.pkl')
+    # X_train = joblib.load('X_train.pkl')
+    # train_yt_merge_y = joblib.load('train_yt_merge_y.pkl')
+
+    with open('rsf_model3.pkl', 'rb') as f:
+        rsf = pickle.load(f)
+    with open('X_train.pkl', 'rb') as f:
+        X_train = pickle.load(f)
+    with open('train_yt_merge_y.pkl', 'rb') as f:
+        train_yt_merge_y = pickle.load(f)
 
     # 计算新患者的生存函数
     surv_fn = rsf.predict_survival_function(new_patient)
@@ -62,7 +75,7 @@ def predict_survival(new_patient, target_time):
     st.write(f"95% 置信区间: ({lower_ci_at_t:.4f}, {upper_ci_at_t:.4f})")
     st.pyplot(fig)
 
-############################################
+
 # Streamlit 页面设置
 st.title("第二原发乳腺癌患者生存预测模型")
 st.header("请输入新患者的信息:")
