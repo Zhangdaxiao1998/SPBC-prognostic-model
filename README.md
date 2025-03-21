@@ -9,8 +9,8 @@ from scipy.stats import randint
 from sklearn.model_selection import RandomizedSearchCV
 
 # 特征选择集
-data_train = pd.read_csv(r"D:\1.研究设计\4.初稿修改\6. 模型工具开发\SPBC_patient_SEER(1998-2015)_train.csv")
-data_test = pd.read_csv(r"D:\1.研究设计\4.初稿修改\6. 模型工具开发\SPBC_patient_SEER(1998-2015)_test.csv")
+data_train = pd.read_csv(r".\SPBC_patient_SEER(1998-2015)_train.csv")
+data_test = pd.read_csv(r".\SPBC_patient_SEER(1998-2015)_test.csv")
 
 # 定义自变量与因变量
 yt_train = data_train['Survival_time']
